@@ -14,30 +14,50 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#4A90E2', // Bleu doux pour les icônes actives
+        tabBarInactiveTintColor: '#9CA3AF', // Gris pour les icônes inactives
+        tabBarStyle: {
+          backgroundColor: '#4A90E2', // Fond bleu pour la barre
+          borderTopWidth: 0,
+          paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+          height: Platform.OS === 'ios' ? 90 : 70,
+        },
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <IconSymbol 
+              size={28} 
+              name="house.fill" 
+              color={focused ? '#FFFFFF' : '#B8D4F0'} 
+            />
+          ),
+          tabBarLabelStyle: {
+            color: '#FFFFFF',
+            fontSize: 12,
+          },
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <IconSymbol 
+              size={28} 
+              name="paperplane.fill" 
+              color={focused ? '#FFFFFF' : '#B8D4F0'} 
+            />
+          ),
+          tabBarLabelStyle: {
+            color: '#FFFFFF',
+            fontSize: 12,
+          },
         }}
       />
     </Tabs>

@@ -12,6 +12,7 @@ const fakeItems = [
     coins: 8,
     category: 'Électronique',
     location: 'Bruxelles',
+    condition: 'Parfait état',
     image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Casque'
   },
   {
@@ -21,6 +22,7 @@ const fakeItems = [
     coins: 5,
     category: 'Vêtements',
     location: 'Ixelles',
+    condition: 'Bon état',
     image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Pull'
   },
   {
@@ -30,6 +32,7 @@ const fakeItems = [
     coins: 3,
     category: 'Livres',
     location: 'Schaerbeek',
+    condition: 'Parfait état',
     image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Livre'
   },
   {
@@ -39,6 +42,7 @@ const fakeItems = [
     coins: 2,
     category: 'Maison',
     location: 'Bruxelles',
+    condition: 'Moyen état',
     image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Plante'
   }
 ];
@@ -53,9 +57,12 @@ export default function HomeScreen() {
     <ThemedView style={styles.container}>
       {/* En-tête avec titre et coins */}
       <ThemedView style={styles.header}>
-        <ThemedText type="title">Givva</ThemedText>
+        <ThemedText type="title" style={styles.appTitle}>Givva</ThemedText>
         <ThemedView style={styles.coinsContainer}>
-          <ThemedText style={styles.coinsText}>💰 12 coins</ThemedText>
+          <ThemedText style={styles.coinsText}>12</ThemedText>
+          <ThemedView style={styles.coinIcon}>
+            <ThemedText style={styles.coinText}>G</ThemedText>
+          </ThemedView>
         </ThemedView>
       </ThemedView>
 
@@ -80,14 +87,24 @@ export default function HomeScreen() {
               <ThemedText style={styles.itemDescription} numberOfLines={2}>
                 {item.description}
               </ThemedText>
+              <ThemedText style={styles.itemCondition}>
+                État: {item.condition}
+              </ThemedText>
               <ThemedView style={styles.itemFooter}>
                 <ThemedText style={styles.itemLocation}>📍 {item.location}</ThemedText>
                 <ThemedView style={styles.itemCoins}>
                   <ThemedText style={styles.itemCoinsText}>
-                    {item.coins} coins
+                    {item.coins}
                   </ThemedText>
+                  <ThemedView style={styles.itemCoinIcon}>
+                    <ThemedText style={styles.itemCoinText}>G</ThemedText>
+                  </ThemedView>
                 </ThemedView>
               </ThemedView>
+            </ThemedView>
+            
+            <ThemedView style={styles.itemArrow}>
+              <ThemedText style={styles.itemArrowText}>{'>'}</ThemedText>
             </ThemedView>
           </TouchableOpacity>
         ))}
@@ -99,7 +116,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
+    backgroundColor: '#F9FAFB', // Fond gris léger
   },
   header: {
     flexDirection: 'row',
@@ -111,16 +128,33 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E5E7EB',
   },
+  appTitle: {
+    color: '#4A90E2', // Bleu doux
+  },
   coinsContainer: {
-    backgroundColor: '#6FCF97',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+  },
+  coinIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#FFD700', // Or
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  coinText: {
+    color: '#B8860B', // Or foncé pour le contraste
+    fontSize: 14,
+    fontWeight: '700',
+    textAlign: 'center',
   },
   coinsText: {
-    color: '#FFFFFF',
+    color: '#1F1F1F', // Noir pour la lisibilité
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: 16,
   },
   scrollView: {
     flex: 1,
@@ -137,14 +171,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     flexDirection: 'row',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderWidth: 1,
+    borderColor: '#4A90E2', // Bordure bleue
   },
   itemImage: {
     width: 80,
@@ -155,11 +183,12 @@ const styles = StyleSheet.create({
   itemInfo: {
     flex: 1,
     justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF', // Forcer le fond blanc
   },
   itemTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1F1F1F',
+    color: '#1F1F1F', // Noir pour la lisibilité
     marginBottom: 4,
   },
   itemDescription: {
@@ -167,25 +196,58 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     lineHeight: 20,
   },
+  itemCondition: {
+    fontSize: 12,
+    color: '#4A90E2', // Bleu doux pour l'état
+    fontWeight: '600',
+    marginTop: 4,
+  },
   itemFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 8,
+    backgroundColor: '#FFFFFF', // Forcer le fond blanc
   },
   itemLocation: {
     fontSize: 12,
     color: '#9CA3AF',
   },
   itemCoins: {
-    backgroundColor: '#6FCF97',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+  },
+  itemCoinIcon: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: '#FFD700', // Or
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemCoinText: {
+    color: '#B8860B', // Or foncé pour le contraste
+    fontSize: 12,
+    fontWeight: '700',
+    textAlign: 'center',
+    lineHeight: 18, // Pour centrer verticalement
   },
   itemCoinsText: {
-    color: '#FFFFFF',
-    fontSize: 12,
+    color: '#1F1F1F', // Noir pour la lisibilité
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  itemArrow: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+    paddingLeft: 8,
+  },
+  itemArrowText: {
+    color: '#4A90E2', // Bleu doux
+    fontSize: 20,
     fontWeight: '600',
   },
 });
