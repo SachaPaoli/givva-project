@@ -5,7 +5,6 @@ import { Platform } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
@@ -58,6 +57,35 @@ export default function TabLayout() {
             color: '#FFFFFF',
             fontSize: 12,
           },
+        }}
+      />
+      <Tabs.Screen
+        name="leaderboard"
+        options={{
+          title: 'Leaderboard',
+          tabBarIcon: ({ color, focused }) => (
+            <IconSymbol 
+              size={28} 
+              name="trophy.fill" 
+              color={focused ? '#FFFFFF' : '#B8D4F0'} 
+            />
+          ),
+          tabBarLabelStyle: {
+            color: '#FFFFFF',
+            fontSize: 12,
+          },
+        }}
+      />
+      <Tabs.Screen
+        name="detailsItem"
+        options={{
+          href: null, // Cacher de la navigation
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          href: null, // Cacher de la navigation
         }}
       />
     </Tabs>

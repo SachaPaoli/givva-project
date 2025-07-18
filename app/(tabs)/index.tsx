@@ -1,61 +1,71 @@
+import { useRouter } from 'expo-router';
 import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
-// Données fictives pour commencer
+// Fake data to start with
 const fakeItems = [
   {
     id: '1',
-    title: 'Casque Bluetooth Sony',
-    description: 'En très bon état, batterie qui tient bien',
+    title: 'Sony Bluetooth Headphones',
+    description: 'In very good condition, battery holds well',
     coins: 8,
-    category: 'Électronique',
-    location: 'Bruxelles',
-    condition: 'Parfait état',
-    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Casque'
+    category: 'Electronics',
+    location: 'Brussels',
+    condition: 'Perfect condition',
+    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Headphones'
   },
   {
     id: '2',
-    title: 'Pull Nike Taille M',
-    description: 'Pull de sport, parfait pour l\'hiver',
+    title: 'Nike Sweater Size M',
+    description: 'Sports sweater, perfect for winter',
     coins: 5,
-    category: 'Vêtements',
+    category: 'Clothing',
     location: 'Ixelles',
-    condition: 'Bon état',
-    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Pull'
+    condition: 'Good condition',
+    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Sweater'
   },
   {
     id: '3',
-    title: 'Livre "Clean Code"',
-    description: 'Livre de programmation, très utile pour dev',
+    title: '"Clean Code" Book',
+    description: 'Programming book, very useful for developers',
     coins: 3,
-    category: 'Livres',
+    category: 'Books',
     location: 'Schaerbeek',
-    condition: 'Parfait état',
-    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Livre'
+    condition: 'Perfect condition',
+    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Book'
   },
   {
     id: '4',
-    title: 'Plante verte',
-    description: 'Belle plante d\'intérieur, facile d\'entretien',
+    title: 'Green Plant',
+    description: 'Beautiful indoor plant, easy to maintain',
     coins: 2,
-    category: 'Maison',
-    location: 'Bruxelles',
-    condition: 'Moyen état',
-    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Plante'
+    category: 'Home',
+    location: 'Brussels',
+    condition: 'Average condition',
+    image: 'https://via.placeholder.com/150x150/6FCF97/FFFFFF?text=Plant'
   }
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   const handleItemPress = (item: any) => {
-    // Plus tard : navigation vers la page détail
-    console.log('Item pressé:', item.title);
+    // Navigate to detail page
+    router.push({
+      pathname: './detailsItem',
+      params: { id: item.id }
+    });
+  };
+
+  const handleSearchPress = () => {
+    router.push('./search');
   };
 
   return (
     <ThemedView style={styles.container}>
-      {/* En-tête avec titre et coins */}
+      {/* Header with title and coins */}
       <ThemedView style={styles.header}>
         <ThemedText type="title" style={styles.appTitle}>Givva</ThemedText>
         <ThemedView style={styles.coinsContainer}>
@@ -66,11 +76,21 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
 
-      {/* Liste des objets */}
+      {/* Items list */}
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <ThemedText type="subtitle" style={styles.sectionTitle}>
-          Objets près de chez toi
-        </ThemedText>
+        <ThemedView style={styles.sectionHeader}>
+          <ThemedText type="subtitle" style={styles.sectionTitle}>
+            Items near you
+          </ThemedText>
+        </ThemedView>
+
+        {/* Search Section */}
+        <ThemedView style={styles.searchSection}>
+          <TouchableOpacity style={styles.searchBar} onPress={handleSearchPress}>
+            <ThemedText style={styles.searchIcon}>🔍</ThemedText>
+            <ThemedText style={styles.searchText}>Search items...</ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
         
         {fakeItems.map((item) => (
           <TouchableOpacity
@@ -88,7 +108,7 @@ export default function HomeScreen() {
                 {item.description}
               </ThemedText>
               <ThemedText style={styles.itemCondition}>
-                État: {item.condition}
+                {item.condition}
               </ThemedText>
               <ThemedView style={styles.itemFooter}>
                 <ThemedText style={styles.itemLocation}>📍 {item.location}</ThemedText>
@@ -116,53 +136,85 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB', // Fond gris léger
+    backgroundColor: '#FFFFFF', // White background
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: 20,
-    paddingTop: 60, // Pour l'espace du status bar
+    paddingTop: 60, // For status bar space
     backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
     borderBottomColor: '#E5E7EB',
   },
   appTitle: {
-    color: '#4A90E2', // Bleu doux
+    color: '#4A90E2', // Soft blue
   },
   coinsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+    backgroundColor: '#FFFFFF', // Force white background
   },
   coinIcon: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#FFD700', // Or
+    backgroundColor: '#FFD700', // Gold
     justifyContent: 'center',
     alignItems: 'center',
   },
   coinText: {
-    color: '#B8860B', // Or foncé pour le contraste
+    color: '#B8860B', // Dark gold for contrast
     fontSize: 14,
     fontWeight: '700',
     textAlign: 'center',
   },
   coinsText: {
-    color: '#1F1F1F', // Noir pour la lisibilité
+    color: '#1F1F1F', // Black for readability
     fontWeight: '600',
     fontSize: 16,
   },
   scrollView: {
     flex: 1,
   },
-  sectionTitle: {
-    padding: 20,
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
     paddingBottom: 10,
+    backgroundColor: '#FFFFFF',
+  },
+  sectionTitle: {
     color: '#1F1F1F',
+  },
+  searchSection: {
+    paddingHorizontal: 20,
+    paddingBottom: 16,
+    backgroundColor: '#FFFFFF',
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F8F9FA',
+    borderRadius: 25,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: '#E9ECEF',
+  },
+  searchIcon: {
+    fontSize: 16,
+    color: '#6C757D',
+    marginRight: 10,
+  },
+  searchText: {
+    fontSize: 16,
+    color: '#6C757D',
+    flex: 1,
   },
   itemCard: {
     backgroundColor: '#FFFFFF',
@@ -171,24 +223,30 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 12,
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: '#4A90E2', // Bordure bleue
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   itemImage: {
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
     borderRadius: 8,
-    marginRight: 12,
+    marginRight: 20,
   },
   itemInfo: {
     flex: 1,
     justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+    backgroundColor: '#FFFFFF', // Force white background
   },
   itemTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#1F1F1F', // Noir pour la lisibilité
+    color: '#1F1F1F', // Black for readability
     marginBottom: 4,
   },
   itemDescription: {
@@ -198,7 +256,7 @@ const styles = StyleSheet.create({
   },
   itemCondition: {
     fontSize: 12,
-    color: '#4A90E2', // Bleu doux pour l'état
+    color: '#4A90E2', // Soft blue for condition
     fontWeight: '600',
     marginTop: 4,
   },
@@ -207,7 +265,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 8,
-    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+    backgroundColor: '#FFFFFF', // Force white background
   },
   itemLocation: {
     fontSize: 12,
@@ -217,36 +275,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+    backgroundColor: '#FFFFFF', // Force white background
   },
   itemCoinIcon: {
     width: 18,
     height: 18,
     borderRadius: 9,
-    backgroundColor: '#FFD700', // Or
+    backgroundColor: '#FFD700', // Gold
     justifyContent: 'center',
     alignItems: 'center',
   },
   itemCoinText: {
-    color: '#B8860B', // Or foncé pour le contraste
+    color: '#B8860B', // Dark gold for contrast
     fontSize: 12,
     fontWeight: '700',
     textAlign: 'center',
-    lineHeight: 18, // Pour centrer verticalement
+    lineHeight: 18, // To center vertically
   },
   itemCoinsText: {
-    color: '#1F1F1F', // Noir pour la lisibilité
+    color: '#1F1F1F', // Black for readability
     fontSize: 14,
     fontWeight: '600',
   },
   itemArrow: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF', // Forcer le fond blanc
+    backgroundColor: '#FFFFFF', // Force white background
     paddingLeft: 8,
   },
   itemArrowText: {
-    color: '#4A90E2', // Bleu doux
+    color: '#4A90E2', // Soft blue
     fontSize: 20,
     fontWeight: '600',
   },
